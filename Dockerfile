@@ -7,8 +7,7 @@ WORKDIR /root
 
 COPY . .
 
-RUN go build helloworld
-
+RUN go build -o helloworld.go
 
 FROM golang:alpine
 
