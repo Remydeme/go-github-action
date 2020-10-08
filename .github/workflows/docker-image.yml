@@ -2,17 +2,44 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - master
+      - main
+      - develop
   pull_request:
     branches: [ main ]
 
 jobs:
 
-  build:
 
+  test:
+    runs-on: ubuntu-latest
+
+  steps:
+    - uses: actions/checkout@v2
+    - name: Set up go
+      uses: actions/setup-go@v2
+      go-version: ‘1.14.0’
+    - name: Install dependency
+      run: |
+        go version
+        go mod init
+        go mod install
+    - name: build the project
+      run: go build .
+    - name: Run vet & lint
+      run: |
+        go vet .
+        golint .
+    - name: Run testing
+      run: go test -v
+
+
+  #The build workflow
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - uses: actions/checkout@v2 # get a copy of the repository code
+    - name: Build the Docker image # the name of this steps
+      run: docker build . --file Dockerfile --tag falconr/:$(date +%s) # bild the container docker
