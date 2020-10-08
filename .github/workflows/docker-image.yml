@@ -27,7 +27,7 @@ jobs:
           go get -u ./...
       - uses: actions/checkout@v2
       - name: Build the
-        run: go build
+        run: go build -o helloworld.go
       - name: Run vet & lint
         run: |
           go vet .
