@@ -24,8 +24,7 @@ jobs:
       - name: Install dependency
         run: |
           go version
-          go mod init
-          go mod install
+          go get -u ./...
       - name: Build the
         run: go build .
       - name: Run vet & lint
@@ -43,4 +42,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2 # get a copy of the repository code
       - name: Build the Docker image # the name of this steps
-        run: docker build . --file Dockerfile --tag falconr/:$(date +%s) # bild the container docker
+        run: docker build . --file Dockerfile -t falconr/$(date +%s) # bild the container docker
